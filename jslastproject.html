@@ -98,7 +98,7 @@
             return;
         }
 
-        // Create new employee object
+        
         const employee = {
             id: employeeId++,
             name: name,
@@ -106,17 +106,17 @@
             age: parseInt(age)
         };
 
-        // Add employee to array
+        
         employees.push(employee);
         message.textContent = 'Employee added successfully!';
         message.className = 'success';
 
-        // Reset the form fields
+    
         document.getElementById('name').value = '';
         document.getElementById('profession').value = '';
         document.getElementById('age').value = '';
 
-        // Update employee list UI
+
         renderEmployeeList();
     }
 

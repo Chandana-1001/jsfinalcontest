@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .employee-list {
+            margin-top: 20px;
+        }
+
+        .employee-item {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .delete-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Employee</h2>
+    <form id="employeeForm">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="profession" placeholder="Profession">
+        <input type="number" id="age" placeholder="Age">
+        <button type="button" onclick="addEmployee()">Add Employee</button>
+    </form>
+
+    <p id="message"></p>
+
+    <h3>Added Employees</h3>
+    <div id="employeeList" class="employee-list">
+        <!-- Added employees will appear here -->
+    </div>
+</div>
+
+<script>
+    let employees = [];
+    let employeeId = 1;
+
+    function addEmployee() {
+        const name = document.getElementById('name').value;
+        const profession = document.getElementById('profession').value;
+        const age = document.getElementById('age').value;
+        const message = document.getElementById('message');
+
+        if (name === '' || profession === '' || age === '') {
+            message.textContent = 'All fields are required!';
+            message.className = 'error';
+            return;
+        }
+
+        // Create new employee object
+        const employee = {
+            id: employeeId++,
+            name: name,
+            profession: profession,
+            age: parseInt(age)
+        };
+
+        // Add employee to array
+        employees.push(employee);
+        message.textContent = 'Employee added successfully!';
+        message.className = 'success';
+
+        // Reset the form fields
+        document.getElementById('name').value = '';
+        document.getElementById('profession').value = '';
+        document.getElementById('age').value = '';
+
+        // Update employee list UI
+        renderEmployeeList();
+    }
+
+    function deleteEmployee(id) {
+        employees = employees.filter(employee => employee.id !== id);
+        renderEmployeeList();
+    }
+
+    function renderEmployeeList() {
+        const employeeList = document.getElementById('employeeList');
+        employeeList.innerHTML = '';
+
+        employees.forEach(employee => {
+            const employeeDiv = document.createElement('div');
+            employeeDiv.className = 'employee-item';
+            employeeDiv.innerHTML = `
+                <strong>Name:</strong> ${employee.name}<br>
+                <strong>Profession:</strong> ${employee.profession}<br>
+                <strong>Age:</strong> ${employee.age}
+                <span class="delete-btn" onclick="deleteEmployee(${employee.id})">Delete</span>
+            `;
+            employeeList.appendChild(employeeDiv);
+        });
+    }
+</script>
+
+</body>
+</html>
